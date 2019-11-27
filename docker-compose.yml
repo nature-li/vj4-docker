@@ -2,7 +2,7 @@ version: '3'
 services:
     web:
         # build: .
-        image: vijos/vj4
+        image: nature/vj4
         restart: always
         command: vj4.server
         env_file: .env

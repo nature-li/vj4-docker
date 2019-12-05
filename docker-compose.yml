@@ -2,7 +2,7 @@ version: '3'
 services:
     web:
         # build: .
-        image: nature/vj4
+        image: greendocker/vj4
         restart: always
         command: vj4.server
         env_file: .env

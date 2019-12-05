@@ -29,4 +29,5 @@ if cmd.startswith('vj4.'):
 else:
     payload = args
 
+print(payload)
 os.execvp(payload[0], payload)

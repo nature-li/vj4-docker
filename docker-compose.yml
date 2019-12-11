@@ -62,3 +62,4 @@ services:
         image: mongo:latest
         volumes:
             - "./data/mongodb:/data/db"
+            - "./backup:/backup"

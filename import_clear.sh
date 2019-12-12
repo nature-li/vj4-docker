@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # set debug mode
-set -x
+# set -x
 
 # set docker name
 if [[ "empty${1}" == "empty" ]]; then
@@ -26,10 +26,21 @@ fi
 
 # unzip file to folder
 tar -xzvf ${CURRENT_PATH}/${BACKUP_DIR}/${TODAY}.tar.gz -C ${CURRENT_PATH}/${BACKUP_DIR}
+if [[ $? != 0 ]]; then
+    exit $?
+fi
+
+# drop old database
+docker exec -it ${MONGO_DOCKER_NAME} sh -c 'mongo vijos4 --eval "db.dropDatabase()"'
+if [[ $? != 0 ]]; then
+    exit $?
+fi
 
 # import data to mongo
-docker exec -it ${MONGO_DOCKER_NAME} sh -c "mongorestore --db vijos4 /backup/${TODAY}/vijos4"
-
+docker exec -it ${MONGO_DOCKER_NAME} sh -c "mongorestore --drop --db vijos4 /backup/${TODAY}/vijos4"
+if [[ $? != 0 ]]; then
+    exit $?
+fi
 
 # only keep last 7 day's data
 DAYS=7

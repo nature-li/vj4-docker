@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # set debug mode
-set -x
+# set -x
 
 # set docker name
 if [[ "empty${1}" == "empty" ]]; then
@@ -27,12 +27,21 @@ mkdir -p ${CURRENT_PATH}/${BACKUP_DIR}/${TODAY}
 
 # export mongo data to directory made just now
 docker exec -it ${MONGO_DOCKER_NAME} sh -c "mongodump --db vijos4 --out /backup/${TODAY}"
+if [[ $? != 0 ]]; then
+    exit $?
+fi
 
 # zip folder
 tar -C ${CURRENT_PATH}/${BACKUP_DIR} -czvf ${CURRENT_PATH}/${BACKUP_DIR}/${TODAY}.tar.gz ${TODAY}
+if [[ $? != 0 ]]; then
+    exit $?
+fi
 
 # sync data to remote using rsync
 /usr/bin/rsync -rtvzc --progress --password-file=/etc/client.pass ${CURRENT_PATH}/${BACKUP_DIR}/${TODAY}.tar.gz name@ip:tag
+if [[ $? != 0 ]]; then
+    exit $?
+fi
 
 # only keep last 7 day's data
 DAYS=7

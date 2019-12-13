@@ -31,13 +31,13 @@ if [[ $? != 0 ]]; then
 fi
 
 # drop old database
-docker exec -it ${MONGO_DOCKER_NAME} sh -c 'mongo vijos4 --eval "db.dropDatabase()"'
+docker exec -i ${MONGO_DOCKER_NAME} sh -c 'mongo vijos4 --eval "db.dropDatabase()"'
 if [[ $? != 0 ]]; then
     exit $?
 fi
 
 # import data to mongo
-docker exec -it ${MONGO_DOCKER_NAME} sh -c "mongorestore --drop --db vijos4 /backup/${TODAY}/vijos4"
+docker exec -i ${MONGO_DOCKER_NAME} sh -c "mongorestore --drop --db vijos4 /backup/${TODAY}/vijos4"
 if [[ $? != 0 ]]; then
     exit $?
 fi

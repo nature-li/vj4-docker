@@ -26,7 +26,7 @@ rm -rf ${CURRENT_PATH}/${BACKUP_DIR}/${TODAY}
 mkdir -p ${CURRENT_PATH}/${BACKUP_DIR}/${TODAY}
 
 # export mongo data to directory made just now
-docker exec -it ${MONGO_DOCKER_NAME} sh -c "mongodump --db vijos4 --out /backup/${TODAY}"
+docker exec -i ${MONGO_DOCKER_NAME} sh -c "mongodump --db vijos4 --out /backup/${TODAY}"
 if [[ $? != 0 ]]; then
     exit $?
 fi
